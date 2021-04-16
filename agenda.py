@@ -13,17 +13,17 @@ AGENDA['Josefina Pires'] = {
 }
 
 
-def mostrar_agenda():
-    for contato in AGENDA:
-        mostrar_contato(contato)
-
-
 def mostrar_contato(contato):
     print("\nNome:", contato)
     print("Telefone:", AGENDA[contato]["telefone"])
     print("E-mail:", AGENDA[contato]["email"])
     print("Endereço:", AGENDA[contato]["endereco"])
     print("\n-------------------------------")
+
+
+def mostrar_agenda():
+    for contato in AGENDA:
+        mostrar_contato(contato)
 
 
 def buscar_contatos():
@@ -57,4 +57,11 @@ def buscar_contatos():
     else:
         print("Escolha uma opção válida")
 
-buscar_contatos()
+
+def inserir_contato(nome, telefone, email, endereco):
+    AGENDA[nome] = {
+        "telefone": telefone,
+        "email": email,
+        "endereco": endereco
+    }
+
