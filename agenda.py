@@ -58,10 +58,11 @@ def buscar_contatos():
         print("Escolha uma opção válida")
 
 
-def inserir_contato(nome, telefone, email, endereco):
+def inserir_editar_contato(nome, telefone, email, endereco):
     AGENDA[nome] = {
         "telefone": telefone,
         "email": email,
         "endereco": endereco
     }
+    print("\n>>>>> O contato {} foi adicionado/editado com sucesso! <<<<<\n".format(nome))
 
