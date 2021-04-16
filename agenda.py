@@ -66,3 +66,6 @@ def inserir_editar_contato(nome, telefone, email, endereco):
     }
     print("\n>>>>> O contato {} foi adicionado/editado com sucesso! <<<<<\n".format(nome))
 
+
+def excluir_contato(nome):
+    AGENDA.pop(nome, None)
