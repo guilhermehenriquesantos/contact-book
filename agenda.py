@@ -69,3 +69,46 @@ def inserir_editar_contato(nome, telefone, email, endereco):
 
 def excluir_contato(nome):
     AGENDA.pop(nome, None)
+    print("\n>>>>> O contato {} foi excluído com sucesso! <<<<<\n".format(nome))
+
+
+def menu():
+    print("\n##########################################################")
+    print("################### AGENDA DE CONTATOS ###################")
+    print("##########################################################\n")
+    print("Olá, o que você deseja ? Escolha uma das opções abaixo:\n")
+    print("1 - Mostrar todos os contatos")
+    print("2 - Adicionar novo contato")
+    print("3 - Buscar um contato existente")
+    print("4 - Editar os dados de um contato")
+    print("5 - Excluir contato")
+    print("6 - Sair")
+    opcao = input("\nNúmero da pção escolhida: ")
+
+    if(opcao == "1"):
+        mostrar_agenda()
+    elif(opcao == "2"):
+        nome = input("\nDigite um nome para o novo contato: ")
+        telefone = input("Digite um telefone para o novo contato: ")
+        email = input("Digite um e-mail para o novo contato: ")
+        endereco = input("Digite um endereço para o novo contato: ")
+        inserir_editar_contato(nome, telefone, email, endereco)
+    elif(opcao == "3"):
+        buscar_contatos()
+    elif(opcao == "4"):
+        nome = input("\nDigite o nome do contato existente: ")
+        telefone = input("Novo número para {}: ".format(nome))
+        email = input("Novo e-mail para {}: ".format(nome))
+        endereco = input("Novo endereço para {}: ".format(nome))
+        inserir_editar_contato(nome, telefone, email, endereco)
+    elif(opcao == "5"):
+        nome = input("\nDigite o nome do contato que deseja excluir: ")
+        excluir_contato(nome)
+    elif(opcao == "6"):
+        exit()
+    else:
+        print("\n-> Escolha uma opção válida <-\n")
+
+
+# MAIN #
+menu()
