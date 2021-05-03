@@ -1,3 +1,6 @@
+import os
+
+
 AGENDA = {}
 
 AGENDA['Guilherme Henrique'] = {
@@ -32,30 +35,38 @@ def buscar_contatos():
     print("2 - Telefone")
     print("3 - E-mail")
     print("4 - Endereço\n")
-    info = input("Digite o número que representa a forma na qual você quer buscar os contatos: ")
 
-    if(info == "1" or info == "Nome" or info == "nome"):
-        nome = input("\nDigite o nome que procura: ")
-        for contato in AGENDA:
-            if contato == nome:
-                mostrar_contato(contato)
-    elif(info == "2" or info == "Telefone" or info == "telefone"):
-        telefone = input("\nDigite o telefone que procura: ")
-        for contato in AGENDA:
-            if AGENDA[contato]["telefone"] == telefone:
-                mostrar_contato(contato)
-    elif(info == "3" or info == "E-mail" or info == "e-mail" or info == "email" or info == "Email"):
-        email = input("\nDigite o e-mail que procura: ")
-        for contato in AGENDA:
-            if AGENDA[contato]["email"] == email:
-                mostrar_contato(contato)
-    elif(info == "4" or info == "Endereço" or info == "endereço" or info == "Endereco" or info == "endereco"):
-        endereco = input("\nDigite o e-mail que procura: ")
-        for contato in AGENDA:
-            if AGENDA[contato]["endereco"] == endereco:
-                mostrar_contato(contato)
-    else:
-        print("Escolha uma opção válida")
+    try:
+        info = int(input("Digite o número que representa a forma na qual você quer buscar os contatos: "))
+
+        if(info == 1):
+            nome = input("\nDigite o nome que procura: ")
+            for contato in AGENDA:
+                if contato == nome:
+                    mostrar_contato(contato)
+
+        elif(info == 2):
+            telefone = input("\nDigite o telefone que procura: ")
+            for contato in AGENDA:
+                if AGENDA[contato]["telefone"] == telefone:
+                    mostrar_contato(contato)
+
+        elif(info == 3):
+            email = input("\nDigite o e-mail que procura: ")
+            for contato in AGENDA:
+                if AGENDA[contato]["email"] == email:
+                    mostrar_contato(contato)
+
+        elif(info == 4):
+            endereco = input("\nDigite o e-mail que procura: ")
+            for contato in AGENDA:
+                if AGENDA[contato]["endereco"] == endereco:
+                    mostrar_contato(contato)
+    
+    except Exception as error:
+        print("Escolha uma opção válida, erro: ", error)
+
+    
 
 
 def inserir_editar_contato(nome, telefone, email, endereco):
@@ -87,26 +98,45 @@ def menu():
 
 # MAIN #
 while True:
-    menu()
+    
+    try:
+        menu()
 
+        opcao = int(input("\nNúmero da opção escolhida: "))
 
-    opcao = input("\nNúmero da pção escolhida: ")
+        os.system('cls' if os.name == 'nt' else 'clear')
 
-    if(opcao == "1"):
-        mostrar_agenda()
-    elif(opcao == "2" or opcao == "3"):
-        nome = input("\nDigite o nome do contato: ")
-        telefone = input("Digite o telefone do contato: ")
-        email = input("Digite o e-mail do contato: ")
-        endereco = input("Digite o endereço do contato: ")
-        inserir_editar_contato(nome, telefone, email, endereco)
-    elif(opcao == "4"):
-        buscar_contatos()
-    elif(opcao == "5"):
-        nome = input("\nDigite o nome do contato que deseja excluir: ")
-        excluir_contato(nome)
-    elif(opcao == "6"):
-        print("\nFechando o programa!\n")
+        if(opcao == 1):
+            mostrar_agenda()
+
+        elif(opcao == 2 or opcao == 3):
+            nome = input("\nDigite o nome do contato: ")
+            telefone = input("Digite o telefone do contato: ")
+            email = input("Digite o e-mail do contato: ")
+            endereco = input("Digite o endereço do contato: ")
+            inserir_editar_contato(nome, telefone, email, endereco)
+
+        elif(opcao == 4):
+            buscar_contatos()
+
+        elif(opcao == 5):
+            nome = input("\nDigite o nome do contato que deseja excluir: ")
+            excluir_contato(nome)
+
+        elif(opcao == 6):
+            print("\nFechando o programa!\n")
+            break
+
+        else:
+            print("\nEscolha uma opção válida, fechando programa!\n")
+            break
+
+    except ValueError as error:
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print("\nDigite um 'número' que representa a opção escolhida. Estamos encerrando o programa!\n")
         break
-    else:
-        print("\n-> Escolha uma opção válida <-\n")
+
+    except Exception as error:
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print("Ocorreu um erro e temos que fechar o programa, desculpe!\n")
+        break
