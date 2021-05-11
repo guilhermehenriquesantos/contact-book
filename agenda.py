@@ -53,7 +53,7 @@ def buscar_contatos():
             for contato in AGENDA:
                 if AGENDA[contato]['endereco'] == endereco:
                     mostrar_contato(contato)
-    
+
     except Exception as error:
         print('\nEscolha uma opção válida\n')
 
@@ -64,8 +64,8 @@ def inserir_editar_contato(nome):
     endereco = input('Digite o endereço do contato: ')
 
     incluir_contato(nome, telefone, email, endereco)
-
     print('\n>>>>> O contato {} foi adicionado/editado com sucesso! <<<<<\n'.format(nome))
+    exportar_agenda()
 
 
 def incluir_contato(nome, telefone, email, endereco):
@@ -80,21 +80,24 @@ def excluir_contato(nome):
     try:
         AGENDA.pop(nome)
         print('\n>>>>> O contato {} foi excluído com sucesso! <<<<<\n'.format(nome))
+        exportar_agenda()
     except KeyError:
         print('\nContato inexistente!\n')
 
 
 def exportar_agenda():
     try:
-        with open('agenda.csv', 'a') as arquivo:
+        with open('agenda.csv', 'w') as arquivo:
             for contato in AGENDA:
                 telefone = AGENDA[contato]['telefone']
                 email = AGENDA[contato]['email']
                 endereco = AGENDA[contato]['endereco']
                 arquivo.write('{},{},{},{}\n'.format(contato, telefone, email, endereco))
-            print("\nAgenda exportada para arquivo CSV\n")
+
+            print("\n>>> Agenda exportada para o arquivo agenda.csv nessa mesma pasta! <<<\n")
+
     except Exception as error:
-        print('Algum erro ocorreu ao exportar a agenda')
+        print('\nAlgum erro ocorreu ao exportar a agenda\n')
 
 
 def importar_agenda():
@@ -103,18 +106,18 @@ def importar_agenda():
             contatos = arquivo.readlines()
             for contato in contatos:
                 detalhes = contato.strip().split(',')
-                
+
                 nome = detalhes[0]
                 telefone = detalhes[1]
                 email = detalhes[2]
                 endereco = detalhes[3]
 
                 incluir_contato(nome, telefone, email, endereco)
-            
-        print('\nContatos importados com sucesso!\n')
 
+    except FileNotFoundError as error:
+        print('\n>>> Sua agenda de contatos está vazia, adicione contatos! <<<')
     except Exception as error:
-        print('Algum erro ocorreu ao importar a agenda')
+        print('\nAlgum erro ocorreu ao importar a agenda\n')
 
 
 def menu():
@@ -127,71 +130,69 @@ def menu():
     print('3 - Editar os dados de um contato')
     print('4 - Buscar um contato existente')
     print('5 - Excluir contato')
-    print('6 - Salvar contatos em arquivo CSV')
-    print('7 - Importar agenda de arquivo CSV')
     print('0 - Sair')
 
 
 # MAIN #
-while True:
-    
-    try:
-        menu()
+if __name__=="__main__":
 
-        opcao = int(input('\nNúmero da opção escolhida: '))
+    importar_agenda()
 
-        os.system('cls' if os.name == 'nt' else 'clear')
+    while True:
 
-        if(opcao == 1):
-            mostrar_agenda()
+        try:
+            menu()
 
-        elif(opcao == 2):
-            nome = input('\nDigite o nome do novo contato: ')
-            try: 
-                AGENDA[nome]
-                print('\nContato {} já existe na agenda!\n'.format(nome))
-            except:
-                
+            opcao = int(input('\nNúmero da opção escolhida: '))
+
+            os.system('cls' if os.name == 'nt' else 'clear')
+
+            if(opcao == 1):
+                mostrar_agenda()
+
+            elif(opcao == 2):
+                nome = input('\nDigite o nome do novo contato: ')
+                try: 
+                    AGENDA[nome]
+                    print('\nContato {} já existe na agenda!\n'.format(nome))
+                except Exception as error:
+                    
+                    inserir_editar_contato(nome)
+
+            elif(opcao == 3):
+                nome = input('Edite o nome do contato: ')
+                try:
+                    AGENDA[nome]
+                    print('\nEditando contato {}\n'.format(nome))
+                    pass
+                except Exception as error:
+                    print('\nEsse contato ainda não foi adicionado...\n')
+                    continue
                 inserir_editar_contato(nome)
 
-        elif(opcao == 3):
-            nome = input('Edite o nome do contato: ')
-            try:
-                AGENDA[nome]
-                print('\nEditando contato {}\n'.format(nome))
-                pass
-            except:
-                print('\nEsse contato ainda não foi adicionado...\n')
-                continue
-            inserir_editar_contato(nome)
+            elif(opcao == 4):
+                buscar_contatos()
 
-        elif(opcao == 4):
-            buscar_contatos()
+            elif(opcao == 5):
+                nome = input('\nDigite o nome do contato que deseja excluir: ')
+                excluir_contato(nome)
 
-        elif(opcao == 5):
-            nome = input('\nDigite o nome do contato que deseja excluir: ')
-            excluir_contato(nome)
+            elif(opcao == 0):
+                print('\nFechando o programa!\n')
+                break
 
-        elif(opcao == 6):
-            exportar_agenda()
+            else:
+                print('\nEscolha uma opção válida, fechando programa!\n')
+                break
 
-        elif(opcao == 7):
-            importar_agenda()
-
-        elif(opcao == 0):
-            print('\nFechando o programa!\n')
+        except ValueError as error:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print('\nDigite um número* que representa a opção escolhida. Estamos encerrando o programa!\n')
             break
 
-        else:
-            print('\nEscolha uma opção válida, fechando programa!\n')
+        except Exception as error:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print('Ocorreu um erro e temos que fechar o programa, desculpe!\n')
             break
 
-    except ValueError as error:
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print('\nDigite um número* que representa a opção escolhida. Estamos encerrando o programa!\n')
-        break
-
-    except Exception as error:
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print('Ocorreu um erro e temos que fechar o programa, desculpe!\n')
-        break
+    exportar_agenda()
