@@ -101,7 +101,7 @@ def exportar_agenda():
                 arquivo.write('{},{},{},{}\n'.format(contato, telefone, email, endereco))
             print("\nAgenda exportada para arquivo CSV\n")
     except Exception as error:
-        print('Algum erro ocorreu')
+        print('Algum erro ocorreu ao exportar a agenda')
 
 
 def menu():
