@@ -3,18 +3,6 @@ import os
 
 AGENDA = {}
 
-AGENDA['Guilherme Henrique'] = {
-    'telefone':'(34)99999-9999',
-    'email':'guilherme@teste.com',
-    'endereco':'Av. Brasil'
-}
-
-AGENDA['Josefina Pires'] = {
-    'telefone':'(34)98888-8888',
-    'email':'josefina@teste.com',
-    'endereco':'Av. Pássaros'
-}
-
 
 def mostrar_contato(contato):
     print('\nNome:', contato)
@@ -74,12 +62,18 @@ def inserir_editar_contato(nome):
     telefone = input('Digite o telefone do contato: ')
     email = input('Digite o e-mail do contato: ')
     endereco = input('Digite o endereço do contato: ')
+
+    incluir_contato(nome, telefone, email, endereco)
+
+    print('\n>>>>> O contato {} foi adicionado/editado com sucesso! <<<<<\n'.format(nome))
+
+
+def incluir_contato(nome, telefone, email, endereco):
     AGENDA[nome] = {
         'telefone': telefone,
         'email': email,
         'endereco': endereco
     }
-    print('\n>>>>> O contato {} foi adicionado/editado com sucesso! <<<<<\n'.format(nome))
 
 
 def excluir_contato(nome):
@@ -92,8 +86,7 @@ def excluir_contato(nome):
 
 def exportar_agenda():
     try:
-        with open('agenda.csv', 'w') as arquivo:
-            arquivo.write('nome, telefone, email, endereco\n')
+        with open('agenda.csv', 'a') as arquivo:
             for contato in AGENDA:
                 telefone = AGENDA[contato]['telefone']
                 email = AGENDA[contato]['email']
@@ -102,6 +95,26 @@ def exportar_agenda():
             print("\nAgenda exportada para arquivo CSV\n")
     except Exception as error:
         print('Algum erro ocorreu ao exportar a agenda')
+
+
+def importar_agenda():
+    try:
+        with open('agenda.csv', 'r') as arquivo:
+            contatos = arquivo.readlines()
+            for contato in contatos:
+                detalhes = contato.strip().split(',')
+                
+                nome = detalhes[0]
+                telefone = detalhes[1]
+                email = detalhes[2]
+                endereco = detalhes[3]
+
+                incluir_contato(nome, telefone, email, endereco)
+            
+        print('\nContatos importados com sucesso!\n')
+
+    except Exception as error:
+        print('Algum erro ocorreu ao importar a agenda')
 
 
 def menu():
@@ -115,7 +128,8 @@ def menu():
     print('4 - Buscar um contato existente')
     print('5 - Excluir contato')
     print('6 - Salvar contatos em arquivo CSV')
-    print('7 - Sair')
+    print('7 - Importar agenda de arquivo CSV')
+    print('0 - Sair')
 
 
 # MAIN #
@@ -162,6 +176,9 @@ while True:
             exportar_agenda()
 
         elif(opcao == 7):
+            importar_agenda()
+
+        elif(opcao == 0):
             print('\nFechando o programa!\n')
             break
 
