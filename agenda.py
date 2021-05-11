@@ -4,96 +4,118 @@ import os
 AGENDA = {}
 
 AGENDA['Guilherme Henrique'] = {
-    "telefone":"(34)99999-9999",
-    "email":"guilherme@teste.com",
-    "endereco":"Av. Brasil"
+    'telefone':'(34)99999-9999',
+    'email':'guilherme@teste.com',
+    'endereco':'Av. Brasil'
 }
 
 AGENDA['Josefina Pires'] = {
-    "telefone":"(34)98888-8888",
-    "email":"josefina@teste.com",
-    "endereco":"Av. Pássaros"
+    'telefone':'(34)98888-8888',
+    'email':'josefina@teste.com',
+    'endereco':'Av. Pássaros'
 }
 
 
 def mostrar_contato(contato):
-    print("\nNome:", contato)
-    print("Telefone:", AGENDA[contato]["telefone"])
-    print("E-mail:", AGENDA[contato]["email"])
-    print("Endereço:", AGENDA[contato]["endereco"])
-    print("\n-------------------------------")
+    print('\nNome:', contato)
+    print('Telefone:', AGENDA[contato]['telefone'])
+    print('E-mail:', AGENDA[contato]['email'])
+    print('Endereço:', AGENDA[contato]['endereco'])
+    print('\n-------------------------------')
 
 
 def mostrar_agenda():
-    for contato in AGENDA:
-        mostrar_contato(contato)
+    if len(AGENDA) > 0:
+        for contato in AGENDA:
+            mostrar_contato(contato)
+    else:
+        print('\nNenhum contato...\n')
 
 
 def buscar_contatos():
-    print("\nEscolha uma opção sobre a busca que você quer realizar:\n")
-    print("1 - Nome")
-    print("2 - Telefone")
-    print("3 - E-mail")
-    print("4 - Endereço\n")
+    print('\nEscolha uma opção sobre a busca que você quer realizar:\n')
+    print('1 - Nome')
+    print('2 - Telefone')
+    print('3 - E-mail')
+    print('4 - Endereço\n')
 
     try:
-        info = int(input("Digite o número que representa a forma na qual você quer buscar os contatos: "))
+        info = int(input('Digite o número que representa a forma na qual você quer buscar os contatos: '))
 
         if(info == 1):
-            nome = input("\nDigite o nome que procura: ")
+            nome = input('\nDigite o nome que procura: ')
             for contato in AGENDA:
                 if contato == nome:
                     mostrar_contato(contato)
 
         elif(info == 2):
-            telefone = input("\nDigite o telefone que procura: ")
+            telefone = input('\nDigite o telefone que procura: ')
             for contato in AGENDA:
-                if AGENDA[contato]["telefone"] == telefone:
+                if AGENDA[contato]['telefone'] == telefone:
                     mostrar_contato(contato)
 
         elif(info == 3):
-            email = input("\nDigite o e-mail que procura: ")
+            email = input('\nDigite o e-mail que procura: ')
             for contato in AGENDA:
-                if AGENDA[contato]["email"] == email:
+                if AGENDA[contato]['email'] == email:
                     mostrar_contato(contato)
 
         elif(info == 4):
-            endereco = input("\nDigite o e-mail que procura: ")
+            endereco = input('\nDigite o e-mail que procura: ')
             for contato in AGENDA:
-                if AGENDA[contato]["endereco"] == endereco:
+                if AGENDA[contato]['endereco'] == endereco:
                     mostrar_contato(contato)
     
     except Exception as error:
-        print("Escolha uma opção válida, erro: ", error)
-
-    
+        print('\nEscolha uma opção válida\n')
 
 
-def inserir_editar_contato(nome, telefone, email, endereco):
+def inserir_editar_contato(nome):
+    telefone = input('Digite o telefone do contato: ')
+    email = input('Digite o e-mail do contato: ')
+    endereco = input('Digite o endereço do contato: ')
     AGENDA[nome] = {
-        "telefone": telefone,
-        "email": email,
-        "endereco": endereco
+        'telefone': telefone,
+        'email': email,
+        'endereco': endereco
     }
-    print("\n>>>>> O contato {} foi adicionado/editado com sucesso! <<<<<\n".format(nome))
+    print('\n>>>>> O contato {} foi adicionado/editado com sucesso! <<<<<\n'.format(nome))
 
 
 def excluir_contato(nome):
-    AGENDA.pop(nome, None)
-    print("\n>>>>> O contato {} foi excluído com sucesso! <<<<<\n".format(nome))
+    try:
+        AGENDA.pop(nome)
+        print('\n>>>>> O contato {} foi excluído com sucesso! <<<<<\n'.format(nome))
+    except KeyError:
+        print('\nContato inexistente!\n')
+
+
+def exportar_agenda():
+    try:
+        with open('agenda.csv', 'w') as arquivo:
+            arquivo.write('nome, telefone, email, endereco\n')
+            for contato in AGENDA:
+                telefone = AGENDA[contato]['telefone']
+                email = AGENDA[contato]['email']
+                endereco = AGENDA[contato]['endereco']
+                arquivo.write('{},{},{},{}\n'.format(contato, telefone, email, endereco))
+            print("\nAgenda exportada para arquivo CSV\n")
+    except Exception as error:
+        print('Algum erro ocorreu')
 
 
 def menu():
-    print("\n##########################################################")
-    print("################### AGENDA DE CONTATOS ###################")
-    print("##########################################################\n")
-    print("Olá, o que você deseja ? Escolha uma das opções abaixo:\n")
-    print("1 - Mostrar todos os contatos")
-    print("2 - Adicionar novo contato")
-    print("3 - Editar os dados de um contato")
-    print("4 - Buscar um contato existente")
-    print("5 - Excluir contato")
-    print("6 - Sair")
+    print('\n##########################################################')
+    print('################### AGENDA DE CONTATOS ###################')
+    print('##########################################################\n')
+    print('Olá, o que você deseja ? Escolha uma das opções abaixo:\n')
+    print('1 - Mostrar todos os contatos')
+    print('2 - Adicionar novo contato')
+    print('3 - Editar os dados de um contato')
+    print('4 - Buscar um contato existente')
+    print('5 - Excluir contato')
+    print('6 - Salvar contatos em arquivo CSV')
+    print('7 - Sair')
 
 
 # MAIN #
@@ -102,41 +124,57 @@ while True:
     try:
         menu()
 
-        opcao = int(input("\nNúmero da opção escolhida: "))
+        opcao = int(input('\nNúmero da opção escolhida: '))
 
         os.system('cls' if os.name == 'nt' else 'clear')
 
         if(opcao == 1):
             mostrar_agenda()
 
-        elif(opcao == 2 or opcao == 3):
-            nome = input("\nDigite o nome do contato: ")
-            telefone = input("Digite o telefone do contato: ")
-            email = input("Digite o e-mail do contato: ")
-            endereco = input("Digite o endereço do contato: ")
-            inserir_editar_contato(nome, telefone, email, endereco)
+        elif(opcao == 2):
+            nome = input('\nDigite o nome do novo contato: ')
+            try: 
+                AGENDA[nome]
+                print('\nContato {} já existe na agenda!\n'.format(nome))
+            except:
+                
+                inserir_editar_contato(nome)
+
+        elif(opcao == 3):
+            nome = input('Edite o nome do contato: ')
+            try:
+                AGENDA[nome]
+                print('\nEditando contato {}\n'.format(nome))
+                pass
+            except:
+                print('\nEsse contato ainda não foi adicionado...\n')
+                continue
+            inserir_editar_contato(nome)
 
         elif(opcao == 4):
             buscar_contatos()
 
         elif(opcao == 5):
-            nome = input("\nDigite o nome do contato que deseja excluir: ")
+            nome = input('\nDigite o nome do contato que deseja excluir: ')
             excluir_contato(nome)
 
         elif(opcao == 6):
-            print("\nFechando o programa!\n")
+            exportar_agenda()
+
+        elif(opcao == 7):
+            print('\nFechando o programa!\n')
             break
 
         else:
-            print("\nEscolha uma opção válida, fechando programa!\n")
+            print('\nEscolha uma opção válida, fechando programa!\n')
             break
 
     except ValueError as error:
         os.system('cls' if os.name == 'nt' else 'clear')
-        print("\nDigite um 'número' que representa a opção escolhida. Estamos encerrando o programa!\n")
+        print('\nDigite um número* que representa a opção escolhida. Estamos encerrando o programa!\n')
         break
 
     except Exception as error:
         os.system('cls' if os.name == 'nt' else 'clear')
-        print("Ocorreu um erro e temos que fechar o programa, desculpe!\n")
+        print('Ocorreu um erro e temos que fechar o programa, desculpe!\n')
         break
