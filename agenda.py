@@ -16,7 +16,6 @@ def mostrar_agenda():
     if len(AGENDA) > 0:
         for contato in AGENDA:
             mostrar_contato(contato)
-
     else:
         print('\nNenhum contato...\n')
 
@@ -35,28 +34,24 @@ def buscar_contatos():
 
         if(info == 1):
             nome = input('\nDigite o nome que procura: ')
-
             for contato in AGENDA:
                 if contato == nome:
                     mostrar_contato(contato)
 
         elif(info == 2):
             telefone = input('\nDigite o telefone que procura: ')
-
             for contato in AGENDA:
                 if AGENDA[contato]['telefone'] == telefone:
                     mostrar_contato(contato)
 
         elif(info == 3):
             email = input('\nDigite o e-mail que procura: ')
-
             for contato in AGENDA:
                 if AGENDA[contato]['email'] == email:
                     mostrar_contato(contato)
 
         elif(info == 4):
             endereco = input('\nDigite o e-mail que procura: ')
-
             for contato in AGENDA:
                 if AGENDA[contato]['endereco'] == endereco:
                     mostrar_contato(contato)
@@ -88,7 +83,6 @@ def excluir_contato(nome):
         AGENDA.pop(nome)
         print('\n>>>>> O contato {} foi excluído com sucesso! <<<<<\n'.format(nome))
         exportar_agenda()
-
     except KeyError:
         print('\nContato inexistente!\n')
 
@@ -116,14 +110,12 @@ def importar_agenda():
     try:
         with open('agenda.csv', 'r') as arquivo:
             contatos = arquivo.readlines()
-
             for contato in contatos:
                 detalhes = contato.strip().split(',')
                 nome = detalhes[0]
                 telefone = detalhes[1]
                 email = detalhes[2]
                 endereco = detalhes[3]
-
                 incluir_contato(nome, telefone, email, endereco)
 
     except FileNotFoundError as error:
@@ -160,7 +152,6 @@ if __name__ == "__main__":
 
             elif(opcao == 2):
                 nome = input('\nDigite o nome do novo contato: ')
-
                 try:
                     AGENDA[nome]
                     print('\nContato {} já existe na agenda!\n'.format(nome))
@@ -170,7 +161,6 @@ if __name__ == "__main__":
 
             elif(opcao == 3):
                 nome = input('Edite o nome do contato: ')
-
                 try:
                     AGENDA[nome]
                     print('\nEditando contato {}\n'.format(nome))
