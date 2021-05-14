@@ -1,3 +1,0 @@
-# Agenda de contatos
-
-Em construção ...
